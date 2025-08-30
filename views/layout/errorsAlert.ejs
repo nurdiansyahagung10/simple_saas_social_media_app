@@ -1,5 +1,7 @@
-<% if (success) { %>
+<% if (errors.length > 0) { %>
 <ul>
-  <li><%= success %></li>
+  <% errors.forEach(msg => { %>
+  <li><%= msg %></li>
+  <% }) %>
 </ul>
 <% } %>

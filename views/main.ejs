@@ -2,14 +2,14 @@
 
 <section id="section-post"></section>
 
-<button id="load-button">load more</button>
+<button id="load-button" style="display: none">load more</button>
 
 <script>
   document.addEventListener("DOMContentLoaded", async () => {
     const loadButton = document.getElementById("load-button");
 
     async function fetchpost(lastVisible) {
-      let url = "http://localhost:8080/api/post/get";
+      let url = "/api/post/get";
       if (lastVisible) {
         url += `?lastVisible="${lastVisible}"`;
       }
