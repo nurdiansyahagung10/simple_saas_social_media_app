@@ -2,7 +2,7 @@ const express = require("express");
 const route = require("./routes/route");
 const session = require("express-session");
 const engine = require("ejs-mate");
-const sessionMiddleware = require("./middleware/session");
+const { sessionMiddleware, loggingMiddleware } = require("./middleware/middleware");
 const app = express();
 const port = 8080;
 
@@ -19,6 +19,7 @@ app.use(session({
 
 // middleware
 app.use(sessionMiddleware);
+app.use(loggingMiddleware);
 
 app.use("/", route);
 
