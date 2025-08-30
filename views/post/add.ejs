@@ -1,0 +1,18 @@
+<% layout('layout/main') %> <%- include('../layout/errorsAlert.ejs') %> <%-
+include('../layout/successAlert.ejs') %>
+
+<form action="/add/post" method="post">
+  <div>
+    <label for="name">name</label>
+    <input id="name" type="text" required name="name" />
+  </div>
+  <div>
+    <label for="title">title</label>
+    <input id="title" type="text" required name="title" />
+  </div>
+  <div>
+    <label for="description">description</label>
+    <textarea name="description" required id="description"></textarea>
+  </div>
+  <button type="submit">Submit</button>
+</form>

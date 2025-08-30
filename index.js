@@ -2,6 +2,7 @@ const express = require("express");
 const route = require("./routes/route");
 const session = require("express-session");
 const engine = require("ejs-mate");
+const sessionMiddleware = require("./middleware/session");
 const app = express();
 const port = 8080;
 
@@ -15,8 +16,13 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+
+// middleware
+app.use(sessionMiddleware);
+
 app.use("/", route);
 
 app.listen(port, () => {
     console.log(`server run on port: ${port}`);
 })
+

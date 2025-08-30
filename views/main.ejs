@@ -1,9 +1,55 @@
-<% layout('layout/main') %> <% post.forEach(item => { %>
-<section
-  style="border: 1px dashed black; border-radius: 20px; padding: 0px 14px 14px"
->
-  <h3><%= item.title %></h3>
-  <p><%= item.description %></p>
-  <small><%= item.name + " " + item.created_at.toDate() %></small>
-</section>
-<% }) %>
+<% layout('layout/main') %>
+
+<section id="section-post"></section>
+
+<button id="load-button">load more</button>
+
+<script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const loadButton = document.getElementById("load-button");
+
+    async function fetchpost(lastVisible) {
+      let url = "http://localhost:8080/api/post/get";
+      if (lastVisible) {
+        url += `?lastVisible="${lastVisible}"`;
+      }
+      const data = await fetch(url).then((res) => res.json());
+      return data;
+    }
+
+    function renderpost(post) {
+      const postLength = post.data.length;
+      post.data.forEach((item) => {
+        document.getElementById("section-post").innerHTML += `
+       <div
+    style="
+      border: 1px dashed black;
+      border-radius: 20px;
+      padding: 0px 14px 14px;
+    "
+  >
+    <h3>${item.title}</h3>
+    <p>${item.description}</p>
+    <small>${item.name + " " + item.created_at}</small>
+  </div>
+      `;
+      });
+
+      if (!post.nextDataLength) {
+        loadButton.style.display = "none";
+      } else {
+        loadButton.style.display = "block";
+      }
+
+      loadButton.value = post.data[postLength - 1].created_at;
+    }
+
+    renderpost(await fetchpost());
+
+    document
+      .getElementById("load-button")
+      .addEventListener("click", async (e) => {
+        renderpost(await fetchpost(e.target.value));
+      });
+  });
+</script>
