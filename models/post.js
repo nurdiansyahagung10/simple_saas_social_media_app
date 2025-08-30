@@ -1,5 +1,6 @@
 const { Firestore } = require("@google-cloud/firestore");
 const firestore = new Firestore();
+const session = require("express-session");
 const pc = firestore.collection("post");
 
 const getAllPost = async () => {
@@ -10,15 +11,15 @@ const getAllPost = async () => {
 const addPost = async (name, description) => {
     await pc.add({
         name,
+        title,
         description,
         likes: 0,
         created_at: new Date()
     });
 
-    return {
-        status: true,
-        msg: "success"
-    }
+    session.message = "Success add post";
+
+    return true;
 }
 
-module.exports = {getAllPost, addPost}
+module.exports = { getAllPost, addPost }
